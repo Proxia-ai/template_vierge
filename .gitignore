@@ -1,0 +1,14 @@
+/build
+*.pyc
+/.logs
+.secrets/*
+/*.egg-info
+/docs
+.pypirc
+*.lock
+*.xml
+.pytest_cache
+*.idea
+Pipfile
+/dist
+*.pytest_cache
