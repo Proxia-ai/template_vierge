@@ -1,6 +1,5 @@
 /build
 *.pyc
-.secrets/*
 /*.egg-info
 .pypirc
 *.lock
@@ -11,3 +10,4 @@ Pipfile
 /dist
 *.pytest_cache
 docs
+.secrets/*

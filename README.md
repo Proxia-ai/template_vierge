@@ -44,4 +44,4 @@ il faut aussi pense à mettre le dossier site-package accessible à tous les use
 
 # to extract requirements.txt via pipenv
 
-`pipenv pip -r freeze > requirements.txt`
+`pipenv run pip freeze > requirements.txt`

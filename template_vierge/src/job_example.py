@@ -6,7 +6,7 @@ from utils.util import get_config_section, read_yaml_data, get_log
 from configs import base_config
 
 # import internal dependancies modules
-from template_vierge.template_vierge.compute import mean_compute
+from template_vierge.src.compute import mean_compute
 
 # import config files of the project
 PROJECT_EMPL = base_config.project_empl

@@ -5,7 +5,7 @@ _make_FILE_DOCS = ./docs/make.bat
 _MAKEFILE_FILE_DOCS = ./docs/Makefile
 
 LINT_FAIL_THRESHOLD ?= 4
-PROJECT_NAME = template_vierge
+PROJECT_NAME = $(notdir $(CURDIR))
 
 .PHONY: init
 init:
@@ -21,11 +21,11 @@ test:
 
 .PHONY: sec
 sec:
-	@pipenv run python -m bandit -r src/${PROJECT_NAME}
+	@pipenv run python -m bandit -r ${PROJECT_NAME}/${PROJECT_NAME}
 
 .PHONY: lint
 lint:
-	@pipenv run python -m pylint --fail-under ${LINT_FAIL_THRESHOLD} --rcfile=.pylintrc src/${PROJECT_NAME}
+	@pipenv run python -m pylint --fail-under ${LINT_FAIL_THRESHOLD} --rcfile=.pylintrc ${PROJECT_NAME}/${PROJECT_NAME}
 
 .PHONY: doc
 doc:
@@ -48,8 +48,8 @@ pack:
 	python3 setup.py sdist bdist_wheel
 
 .PHONY: upload
-upload:
+publish:
 	python3 -m twine upload --repository testpypi dist/* --config-file .secrets/.env
 
 .PHONY: all
-all: init test sec lint doc pack upload
+all: init test sec lint doc pack publish
