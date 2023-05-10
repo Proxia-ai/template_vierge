@@ -9,5 +9,4 @@
 Pipfile
 /dist
 *.pytest_cache
-docs
 .secrets/*
