@@ -1,4 +1,9 @@
-GENERATED_DOCS = ./docs/{_build/*}
+_BUILD_DOCS = ./docs/_build
+_STATICS_DOCS = ./docs/_static
+_TEMPLATES_DOCS = ./docs/_templates
+_make_FILE_DOCS = ./docs/make.bat
+_MAKEFILE_FILE_DOCS = ./docs/Makefile
+
 LINT_FAIL_THRESHOLD ?= 4
 PROJECT_NAME = template_vierge
 
@@ -9,6 +14,8 @@ init:
 
 .PHONY: test
 test:
+	echo "clean test"
+	@rm -rf ./*.pytest_cache
 	echo "Executing unit tests"
 	python -m pytest tests
 
@@ -23,15 +30,26 @@ lint:
 .PHONY: doc
 doc:
 	echo "Regenerating documentation"
-	@rm -rf $(GENERATED_DOCS)
+	@rm -rf $(_BUILD_DOCS)
+	@rm -rf $(_STATICS_DOCS)
+	@rm -rf $(_TEMPLATES_DOCS)
+	@rm -rf $(_make_FILE_DOCS)
+	@rm -rf $(_MAKEFILE_FILE_DOCS)
 	@pipenv run sphinx-apidoc -o docs .
 	@pipenv run sphinx-build -M html docs docs/_build
 
 .PHONY: pack
 pack:
+	echo "cleaning"
+	@rm -rf ./build
+	@rm -rf ./dist
+	@rm -rf ./*.egg-info
 	echo "Packaging application"
-	python3 -m pip install --upgrade build
-	python3 -m build
+	python3 setup.py sdist bdist_wheel
+
+.PHONY: upload
+upload:
+	python3 -m twine upload --repository testpypi dist/* --config-file .secrets/.env
 
 .PHONY: all
-all: init test sec lint doc pack
+all: init test sec lint doc pack upload

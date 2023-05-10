@@ -6,9 +6,13 @@ yaml_asset_config = read_yaml_data(YAML_CONFIG_FILE_PATH)
 
 import setuptools
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open(base_config.project_empl + "/README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+requirements = [
+    'PyYAML',
+    'pandas'
+]
 asset_name = yaml_asset_config[0]["asset_meta_information"]["asset_name"]
 setuptools.setup(
     name=asset_name,
@@ -21,12 +25,9 @@ setuptools.setup(
     url=yaml_asset_config[0]["asset_meta_information"]["url"],
     keywords=yaml_asset_config[0]["asset_meta_information"]["keywords"],
     project_urls=yaml_asset_config[0]["asset_meta_information"]["project_urls"][0],
-    install_requires=[
-        'PyYAML',
-        'pandas'
-    ],
+    install_requires=requirements,
     classifiers=yaml_asset_config[0]["asset_meta_information"]["classifiers"],
-
+    license='BSD',
     package_data={
         "configs": ["config.ini", "{}_config.yaml".format(asset_name)],
         "{}".format(asset_name): ["__init__.py"]

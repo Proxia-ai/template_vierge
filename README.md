@@ -1,5 +1,9 @@
 # Documentation Sphinx
 
+`mkdir docs`
+
+`cd docs`
+
 Pour génerer de la documentation Sphinx, voici les principales commandes à faire dans le dossier /docs
 
 `sphinx-quickstart`
