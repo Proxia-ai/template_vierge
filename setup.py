@@ -1,46 +1,45 @@
+from utils.util import read_yaml_data
+from configs import base_config
+
+YAML_CONFIG_FILE_PATH = base_config.yaml_config_empl
+yaml_asset_config = read_yaml_data(YAML_CONFIG_FILE_PATH)
+
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+asset_name = yaml_asset_config[0]["asset_meta_information"]["asset_name"]
 setuptools.setup(
-    name="template_vierge",
-    version="0.0.3.16",
-    author="BEN OTHMANE Zied",
-    author_email="ziedici@gmail.com",
-    description="Say if population is old",
+    name=asset_name,
+    version=yaml_asset_config[0]["asset_meta_information"]["asset_version"],
+    author=yaml_asset_config[0]["asset_meta_information"]["author"],
+    author_email=yaml_asset_config[0]["asset_meta_information"]["author_email"],
+    description=yaml_asset_config[0]["asset_meta_information"]["description"],
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
-    keywords=['SOME', 'MEANINGFULL', 'KEYWORDS'],
-    project_urls={
-        "Bug Tracker": "https://github.com/pypa/sampleproject/issues",
-    },
+    url=yaml_asset_config[0]["asset_meta_information"]["url"],
+    keywords=yaml_asset_config[0]["asset_meta_information"]["keywords"],
+    project_urls=yaml_asset_config[0]["asset_meta_information"]["project_urls"][0],
     install_requires=[
-        'numpy==1.24.3',
-        'pandas==2.0.1',
-        'PyYAML==6.0',
+        'PyYAML',
+        'pandas'
     ],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        'Topic :: Software Development :: Build Tools',
-        # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',  # Define that your audience are developers
-        'Programming Language :: Python :: 3.7',  # Specify which pyhton versions that you want to support
-    ],
-    # si le dossier ne contient aucun script il ne va pas etre considéré comme un package meme s'il contient __init__.py
-    packages=(
-            setuptools.find_packages() +
-            setuptools.find_packages(where="./src/template_vierge") +
-            setuptools.find_packages(where="./utils") +
-            setuptools.find_packages(where="./configs") +
-            setuptools.find_packages(where="./_modules/module_1")
-    ),
-    package_data={'configs': ['config.ini', 'config.yaml']},
-    include_package_data=True,
+    classifiers=yaml_asset_config[0]["asset_meta_information"]["classifiers"],
 
-    python_requires=">=3.7"
+    package_data={
+        "configs": ["config.ini", "{}_config.yaml".format(asset_name)],
+        "{}".format(asset_name): ["__init__.py"]
+    },
+    packages=['{}/{}'.format(asset_name, asset_name), '{}/utils'.format(asset_name), '{}/configs'.format(asset_name),
+              '{}'.format(asset_name)],
+    package_dir={
+        '{}/{}'.format(asset_name, asset_name): '{}/{}'.format(asset_name, asset_name),
+        '{}/utils'.format(asset_name): './utils',
+        '{}/configs'.format(asset_name): './configs',
+        '{}'.format(asset_name): '{}'.format(asset_name)
+    },
+
+    # include_package_data=True,
+    python_requires=yaml_asset_config[0]["asset_meta_information"]["python_required"]
 )

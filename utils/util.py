@@ -62,9 +62,9 @@ def get_log(func):
     logging.basicConfig(filename=logs_file_path, format=log_format, encoding='utf-8', level=logging.DEBUG)
 
     @wraps(func)
-    def _main(self):
+    def _main(*args):
         try:
-            fonc = func(self)
+            fonc = func(*args)
             logging.info("Execution sucess")
             return fonc
         except Exception as e:

@@ -37,3 +37,7 @@ L'upgrade du package de l'autre coté sera comme ça:
 il faut aussi pense à mettre le dossier site-package accessible à tous les users:
 
 `sudo chmod -R ugo+rX /home/zied/PycharmProjects/pythonProject_test/venv/lib/python3.10/site-packages`
+
+# to extract requirements.txt via pipenv
+
+`pipenv pip -r freeze > requirements.txt`

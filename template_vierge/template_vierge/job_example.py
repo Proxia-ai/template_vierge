@@ -6,14 +6,15 @@ from utils.util import get_config_section, read_yaml_data, get_log
 from configs import base_config
 
 # import internal dependancies modules
-from _modules.module_1.compute import mean_compute
+from template_vierge.template_vierge.compute import mean_compute
 
 # import config files of the project
+PROJECT_EMPL = base_config.project_empl
 CONFIG_FILE_PATH = base_config.config_empl
 YAML_CONFIG_FILE_PATH = base_config.yaml_config_empl
 
-# import config
-yaml_param = read_yaml_data(YAML_CONFIG_FILE_PATH)
+# import asset config
+yaml_asset_config = read_yaml_data(YAML_CONFIG_FILE_PATH)
 
 # specify the data : Many sources are possible :
 # 1- Internal folder
@@ -25,14 +26,15 @@ data_folder = get_config_section(CONFIG_FILE_PATH, "data", "local")
 
 
 # Default param
-seuil_old = yaml_param["age_part"]["old"]
-data_file = data_folder + "/emp.csv"
+seuil_old = yaml_asset_config[1]["asset_parameters"][0]["age_part"]["old"]
+data_file = PROJECT_EMPL + yaml_asset_config[2]["asset_default_data"]["example_data"]
 
 
 @get_log
-def is_population_old(data=data_file, seuil_old=60):
+def is_population_old(data=data_file, seuil=seuil_old):
     """
     Une fonction qui calcule si la population est agé ou non selon un parametre
+    :param seuil: seuille de viellesse
     :param data: fichier de donnée en csv
     :return: Un boolean
     """
@@ -40,7 +42,7 @@ def is_population_old(data=data_file, seuil_old=60):
     df = pd.read_csv(data)
     age_col = df["age"]
     mean_col = mean_compute(age_col)
-    return mean_col >= seuil_old
+    return mean_col >= seuil
 
 
 if __name__ == "__main__":
